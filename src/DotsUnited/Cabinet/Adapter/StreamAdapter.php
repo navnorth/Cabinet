@@ -354,7 +354,7 @@ class StreamAdapter implements AdapterInterface
     {
         $path = $this->path($file);
 
-        return file_get_contents($path, null, $this->getStreamContext());
+        return @file_get_contents($path, null, $this->getStreamContext());
     }
 
     /**

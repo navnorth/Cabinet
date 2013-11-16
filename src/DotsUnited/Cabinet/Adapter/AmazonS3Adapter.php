@@ -359,7 +359,7 @@ class AmazonS3Adapter implements AdapterInterface
             'StorageClass' => $this->getStorageClass()
         );
 
-        $type = $this->getMimeTypeDetector()->detectFromFile($file);
+        $type = $this->getMimeTypeDetector()->detectFromFile($external);
 
         if (!empty($type)) {
             $params['ContentType'] = $type;
@@ -688,8 +688,16 @@ class AmazonS3Adapter implements AdapterInterface
         }
 
         try {
-            $request = $this->s3Client->get($this->getBucket() . '/' . $file);
-            return $this->s3Client->getPresignedUrl($request, $this->getUriExpirationTime());
+
+            if($this->getUriExpirationTime())
+            {
+                $request = $this->s3Client->get($this->getBucket() . '/' . $file);
+                return $this->s3Client->createPresignedUrl($request, $this->getUriExpirationTime());
+            }
+            else
+            {
+                return $this->s3Client->getObjectUrl($this->getBucket(), $file);
+            }
         } catch (S3Exception $e) {
             if (!$this->getThrowExceptions()) {
                 return null;

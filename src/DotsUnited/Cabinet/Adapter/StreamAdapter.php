@@ -555,7 +555,7 @@ class StreamAdapter implements AdapterInterface
             foreach ($parts as $part) {
                 $dirPath .= DIRECTORY_SEPARATOR . $part;
                 if (!is_dir($dirPath)) {
-                    mkdir($dirPath, $dirUmask, false, $streamContext);
+                    mkdir($dirPath, $dirUmask, true, $streamContext);
                     @chmod($dirPath, $dirUmask); // Required in some configurations
                 }
             }

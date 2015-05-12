@@ -706,4 +706,9 @@ class AmazonS3Adapter implements AdapterInterface
             throw new \RuntimeException('Exception thrown by Aws\S3\S3Client: ' . $e->getMessage(), null, $e);
         }
     }
+
+    public function path($file)
+    {
+        return $this->uri($file);
+    }
 }
